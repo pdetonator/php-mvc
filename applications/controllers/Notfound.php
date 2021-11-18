@@ -1,12 +1,12 @@
 <?php
 
-    class Home extends Controller
+    class Notfound extends Controller
     {
 
         public function index()
         {
 
-            $this -> view('welcome');
+            $this -> view('404');
 
         }
 

@@ -91,14 +91,53 @@
 
                             }
                         }
-                        
+
                     }
                     
                 }
 
             }
         }
-        
+
+        public function error($callback)
+        {
+            if (!in_array($this -> request_uri, array_keys($this -> routes))) {
+
+                if (is_callable($callback)) {
+
+                    call_user_func_array($callback, []);
+
+                }else {
+
+                    if (!in_array($this -> request_uri, array_keys($this -> routes))) {
+
+                        $controller = explode('/', $callback);
+
+                        if (count($controller) === 1) {
+
+                            if ($this -> controller_exist($controller[0])) {
+
+                                require $this -> controller_exist($controller[0])['file_name'];
+
+                                call_user_func_array([new $controller[0], 'index'], []);
+
+                            }
+
+                        }else {
+
+                            require $this -> controller_exist($controller[0]);
+
+                            call_user_func_array([new $controller[0], $controller[1]], $params);
+
+                        }
+
+                    }
+
+                }
+
+            }
+        }
+
         public function controller_exist($name)
         {
 
